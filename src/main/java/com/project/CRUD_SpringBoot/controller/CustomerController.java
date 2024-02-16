@@ -36,4 +36,20 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.OK).body(customer);
         }
     }
+
+    @PutMapping("/customer/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        Customer existingCustomer = customerService.getCustomerById(id);
+
+        if (existingCustomer == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }else{
+            existingCustomer.setName(customer.getName());
+            existingCustomer.setEmail(customer.getEmail());
+            existingCustomer.setPhone(customer.getPhone());
+
+            Customer updatedCustomer = customerService.updateCustomer(existingCustomer);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
+        }
+    }
 }
