@@ -52,4 +52,16 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
         }
     }
+
+    @DeleteMapping("/customer/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id){
+        Customer customer = customerService.getCustomerById(id);
+
+        if (customer == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }else{
+            customerService.deleteCustomer(id);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
 }
